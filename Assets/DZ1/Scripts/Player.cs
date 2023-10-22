@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IShooter
+public class Player : MonoBehaviour, IShooter, ITradeable
 {
     private GunSwitcher _gunSwitcher;
     private Gun _gun;
@@ -27,6 +28,8 @@ public class Player : MonoBehaviour, IShooter
         {
             SwitchGun();
         }
+
+        Request();
     }
 
     public void Shoot()
@@ -38,4 +41,22 @@ public class Player : MonoBehaviour, IShooter
     {
         _gun.SetShootStratagy(_gunSwitcher.ChangeGun());
     }
+
+    public void Request()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            RequestTrade?.Invoke(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            RequestTrade?.Invoke(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            RequestTrade?.Invoke(3);
+        }
+    }
+
+    public event Action<int> RequestTrade;
 }
