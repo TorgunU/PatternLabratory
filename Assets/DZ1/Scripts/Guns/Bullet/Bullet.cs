@@ -9,10 +9,9 @@ public class Bullet : MonoBehaviour
 
     private float _speed;
 
-    public void Init(float speed, Action<Bullet> OnCollided)
+    public void Init(float speed)
     {
         _speed = speed;
-        Collided += OnCollided;
     }
 
     public void StartFlying()

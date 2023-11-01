@@ -1,15 +1,24 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IShooter, ITradeable
 {
     private GunSwitcher _gunSwitcher;
     private Gun _gun;
+    private IAttackEvents _attackEvents;
 
-    public void Init(Gun gun, GunSwitcher gunBelt)
+    public void Init(IAttackEvents attackEvents, Gun gun, GunSwitcher gunBelt)
     {
+        _attackEvents = attackEvents;
         _gun = gun;
         _gunSwitcher = gunBelt;
+        _attackEvents.AttackPressed += OnAttackPressed;
+    }
+
+    private void OnDisable()
+    {
+        _attackEvents.AttackPressed -= OnAttackPressed;
     }
 
     private void Start()
@@ -17,20 +26,25 @@ public class Player : MonoBehaviour, IShooter, ITradeable
         SwitchGun();
     }
 
-    private void Update()
+    private void OnAttackPressed()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Shoot();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SwitchGun();
-        }
-
-        Request();
+        Shoot();
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        Shoot();
+    //    }
+
+    //    if (Input.GetKeyDown(KeyCode.Q))
+    //    {
+    //        SwitchGun();
+    //    }
+
+    //    Request();
+    //}
 
     public void Shoot()
     {

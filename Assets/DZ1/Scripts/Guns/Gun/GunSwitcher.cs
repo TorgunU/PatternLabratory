@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 
 public class GunSwitcher
 {
@@ -17,11 +16,11 @@ public class GunSwitcher
         switch (_slotIndex)
         {
             case 0:
-                return new SingleShootStratagy(_bulletPool, 5, 10, 1);
+                return new SingleShootStratagy(_bulletPool, 10, 1);
             case 1:
-                return new InfiniteShootStratagy(_bulletPool, 10);
+                return new InfiniteShootStratagy(_bulletPool);
             case 2:
-                return new ThreeShootStratagy(_bulletPool, 20, 30, 1.5f);
+                return new ThreeShootStratagy(_bulletPool, 7, 1.5f);
             default:
                 throw new Exception("Gun could't be created");
         }

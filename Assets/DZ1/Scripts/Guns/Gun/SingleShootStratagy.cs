@@ -8,13 +8,12 @@ public class SingleShootStratagy : ShootStratagy, IDelay, IReloadable
     public float Delay { get; set; }
     public bool IsReseted { get; set; }
 
-    public SingleShootStratagy(BulletPool bulletPool, float bulletSpeed, int magazineSize, float shootDelay)
-        : base(bulletPool, bulletSpeed)
+    public SingleShootStratagy(BulletPool bulletPool, int magazineSize, float shootDelay)
+        : base(bulletPool)
     {
         Magazine = new Magazine(magazineSize);
         Delay = shootDelay;
         IsReseted = true;
-        BulletPool.SetSpeed(bulletSpeed);
     }
 
     public override void Shoot()
@@ -26,7 +25,7 @@ public class SingleShootStratagy : ShootStratagy, IDelay, IReloadable
             return;
         }
 
-        PoolAmmo();
+        PullBullet();
     }
 
     public void Reload()

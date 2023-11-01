@@ -1,21 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ThreeShootStratagy : ShootStratagy, IDelay, IReloadable
 {
-    private const int ShotExpenditure = 3;
+    private const int ShotCount = 3;
+    private const float Spacing = 0.3f;
 
     public Magazine Magazine { get; set; }
 
     public float Delay { get; set; }
     public bool IsReseted { get; set; }
 
-    public ThreeShootStratagy(BulletPool bulletPool, float bulletSpeed, int magazineSize, float shootDelay)
-        : base(bulletPool, bulletSpeed)
+    public ThreeShootStratagy(BulletPool bulletPool, int magazineSize, float shootDelay)
+        : base(bulletPool)
     {
-        bulletPool.SetSpeed(bulletSpeed);
         Magazine = new Magazine(magazineSize);
         Delay = shootDelay;
         IsReseted = true;
@@ -23,16 +21,17 @@ public class ThreeShootStratagy : ShootStratagy, IDelay, IReloadable
 
     public override void Shoot()
     {
-        if (IsReseted == false
-            || Magazine.TryReduceAmmo() == false)
+        for (int i = 0; i < ShotCount; i++)
         {
-            // play audio clip and etc
-            return;
-        }
+            if (IsReseted == false || Magazine.TryReduceAmmo() == false)
+            {
+                // play audio clip and etc
+                return;
+            }
 
-        SetBulletPosition(PoolAmmo(), 0);
-        SetBulletPosition(PoolAmmo(), 1);
-        SetBulletPosition(PoolAmmo(), 2);
+            Bullet bullet = PullBullet();
+            SetBulletSpacing(bullet.transform, i);
+        }
     }
 
     public void Reload()
@@ -57,8 +56,8 @@ public class ThreeShootStratagy : ShootStratagy, IDelay, IReloadable
         ResetDelay();
     }
 
-    private void SetBulletPosition(Bullet bullet, int xPos)
+    private void SetBulletSpacing(Transform bulletTransform, int iteration)
     {
-        bullet.transform.position = bullet.transform.position + new Vector3(xPos, 0);
+        bulletTransform.position += new Vector3(Spacing * iteration, 0);
     }
 }

@@ -2,14 +2,10 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField] protected BulletPool BulletPool;
-    [SerializeField] protected Transform FirePoint;
-    protected ShootStratagy ShootStratagy;
+    private ShootStratagy ShootStratagy;
 
-    public void Init(int poolSize, int maxPoolSize, float bulletSpeed,
-        ShootStratagy shootStratagy)
+    public void Init(ShootStratagy shootStratagy)
     {
-        BulletPool.Init(poolSize, maxPoolSize, bulletSpeed, FirePoint);
         ShootStratagy = shootStratagy;
     }
 
