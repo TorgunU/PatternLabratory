@@ -1,7 +1,5 @@
 
 using Assets.Patterns.TemplateMethod.CoinExample;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SilverCoin : Coin
