@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace Assets.Patterns.TemplateMethod.CoinExample
     {
         [SerializeField, Range(0, 50)] protected int Value;
 
+        public event Action<Coin> PickedUp;
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out ICoinPicker coinPicker))
@@ -15,7 +18,7 @@ namespace Assets.Patterns.TemplateMethod.CoinExample
                 PlayAudioClip();
                 PlayAnimation();
                 AddCoins(coinPicker);
-                Destroy(gameObject);
+                PickedUp.Invoke(this);
             }
         }
 

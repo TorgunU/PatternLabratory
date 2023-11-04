@@ -13,10 +13,6 @@ public class PlayerMovement : MonoBehaviour
     public void Init(IMovementEvents movementEvents)
     {
         _movementEvents = movementEvents;
-    }
-
-    private void OnEnable()
-    {
         _movementEvents.MovementDirectionUpdated += OnDirectionUpdated;
     }
 
