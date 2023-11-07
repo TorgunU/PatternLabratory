@@ -12,11 +12,11 @@ public class Bootstrapper : MonoBehaviour
 
     private GunSwitcher _gunSwitcher;
 
-    private void Awake()
-    {
-        InitPlayerGun();
-        InitPlayer();
-    }
+    //private void Awake()
+    //{
+    //    InitPlayerGun();
+    //    InitPlayer();
+    //}
 
     private void InitPlayerGun()
     {
@@ -25,9 +25,9 @@ public class Bootstrapper : MonoBehaviour
         _playerGun.Init(_gunSwitcher.ChangeGun());
     }
 
-    private void InitPlayer()
-    {
-        _playerMovement.Init(_playerInput);
-        _player.Init(_playerInput, _playerGun, _gunSwitcher);
-    }
+    //private void InitPlayer()
+    //{
+    //    _playerMovement.Init(_playerInput);
+    //    _player.Init(_playerInput, _playerGun, _gunSwitcher);
+    //}
 }

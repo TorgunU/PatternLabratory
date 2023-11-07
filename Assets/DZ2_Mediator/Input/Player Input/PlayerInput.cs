@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 public abstract class PlayerInput : MonoBehaviour, IMovementEvents, IAttackEvents
 {
@@ -9,9 +10,10 @@ public abstract class PlayerInput : MonoBehaviour, IMovementEvents, IAttackEvent
     public abstract event Action<Vector2> MovementDirectionUpdated;
     public abstract event Action AttackPressed;
 
-    protected virtual void Awake()
+    [Inject]
+    private void Construct(InputActions actions)
     {
-        Actions = new InputActions();
+        Actions = actions;
 
         Actions.KeyboardMouse.Movement.performed += moveDirectionContext =>
         RaiseMovementDirection(moveDirectionContext);

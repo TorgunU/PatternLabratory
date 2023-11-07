@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Assets.Patterns.DZ2_Mediator
 {
@@ -8,7 +9,13 @@ namespace Assets.Patterns.DZ2_Mediator
     {
         [SerializeField] private Button _restartButton;
 
-        public event Action Restarted;
+        private GameplayMediator _mediator;
+
+        [Inject]
+        public void Construct(GameplayMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         private void OnEnable()
         {
@@ -20,12 +27,7 @@ namespace Assets.Patterns.DZ2_Mediator
             _restartButton.onClick.RemoveListener(OnRestartClicked);
         }
 
-        public void OnPlayerDied()
-        {
-            Show();
-        }
-
-        private void Show()
+        public void Show()
         { 
             gameObject.SetActive(true);
         }
@@ -37,8 +39,7 @@ namespace Assets.Patterns.DZ2_Mediator
 
         private void OnRestartClicked()
         {
-            Restarted.Invoke();
-            Hide();
+            _mediator.RestartLevel();
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 public class Player : MonoBehaviour, IShooter, ITradeable
 {
@@ -8,7 +9,8 @@ public class Player : MonoBehaviour, IShooter, ITradeable
     private Gun _gun;
     private IAttackEvents _attackEvents;
 
-    public void Init(IAttackEvents attackEvents, Gun gun, GunSwitcher gunBelt)
+    [Inject]
+    public void Construct(IAttackEvents attackEvents, Gun gun, GunSwitcher gunBelt)
     {
         _attackEvents = attackEvents;
         _gun = gun;

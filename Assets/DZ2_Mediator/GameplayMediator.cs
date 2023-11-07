@@ -1,20 +1,45 @@
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Patterns.DZ2_Mediator
 {
-    public class GameplayMediator : MonoBehaviour
+    public class GameplayMediator
     {
-        [SerializeField] private Player _player;
-        [SerializeField] private HealthViewer _healthViewer;
-        [SerializeField] private LevelViewer _levelViewer;
-        [SerializeField] private RestartPanel _restartPanel;
+        private HealthViewer _healthViewer;
+        private LevelViewer _levelViewer;
+        private RestartPanel _restartPanel;
+        private Player _player;
 
-        private void Awake()
+        [Inject]
+        private void Construct(Player player, HealthViewer healthViewer, LevelViewer levelViewer,
+            RestartPanel restartPanel)
         {
+            _player = player;
+            _healthViewer = healthViewer;
+            _levelViewer = levelViewer;
+            _restartPanel = restartPanel;
+
+            _player.Died += OnPlayerDied;
             _player.HealthChanged += _healthViewer.OnChanged;
             _player.LevelChanged += _levelViewer.OnChanged;
-            _player.Died += _restartPanel.OnPlayerDied;
-            _restartPanel.Restarted += _player.ResetStats;
+        }
+
+        private void OnDisable()
+        {
+            _player.Died += OnPlayerDied;
+            _player.HealthChanged += _healthViewer.OnChanged;
+            _player.LevelChanged += _levelViewer.OnChanged;
+        }
+
+        public void RestartLevel()
+        {
+            _restartPanel.Hide();
+            _player.ResetStats();
+        }
+
+        private void OnPlayerDied()
+        {
+            _restartPanel.Show();
         }
     }
 }

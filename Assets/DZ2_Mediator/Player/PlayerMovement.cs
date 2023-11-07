@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     public IMovementEvents MovementEvents => _movementEvents;
 
-    public void Init(IMovementEvents movementEvents)
+    [Inject]
+    private void Construct(IMovementEvents movementEvents)
     {
         _movementEvents = movementEvents;
         _movementEvents.MovementDirectionUpdated += OnDirectionUpdated;
