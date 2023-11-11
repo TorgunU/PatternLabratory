@@ -11,7 +11,7 @@ namespace Assets.Patterns.DZ2_Mediator
 
         private const string healthText = "Health :";
 
-        public void OnChanged(float healthV)
+        public void SetText(float healthV)
         {
             _text.text = healthText + healthV;
         }

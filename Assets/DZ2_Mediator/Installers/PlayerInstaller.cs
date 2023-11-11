@@ -1,31 +1,33 @@
-using Assets.Patterns.DZ2_Mediator;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class PlayerInstaller : MonoInstaller
+namespace Assets.Patterns.DZ4_3
 {
-    [SerializeField] private Dekstop _dekstop;
-    [SerializeField] private Assets.Patterns.DZ2_Mediator.Player _player;
-
-    public override void InstallBindings()
+    public class PlayerInstaller : MonoInstaller
     {
-        BindPlayerInput();
-        BindPlayer();
-    }
+        [SerializeField] private Dekstop _dekstop;
+        [SerializeField] private DZ2_Mediator.Player _prefab;
 
-    private void BindPlayerInput()
-    {
-        Container.BindInstance(new InputActions());
-        Dekstop dekstop = Container.InstantiatePrefabForComponent<Dekstop>(_dekstop,
-            FindObjectOfType<PlayerMovement>().transform);
-        Container.BindInterfacesAndSelfTo<PlayerInput>().FromInstance(dekstop).AsSingle();
-    }
+        private DZ2_Mediator.Player _player;
 
-    private void BindPlayer()
-    {
-        Container.BindInterfacesAndSelfTo<Assets.Patterns.DZ2_Mediator.Player>()
-            .FromInstance(_player).AsSingle();
+        public override void InstallBindings()
+        {
+            InstallPlayerInput();
+            InstallPlayer();
+        }
+
+        private void InstallPlayer()
+        {
+            _player = Container.InstantiatePrefabForComponent<DZ2_Mediator.Player>(_prefab);
+            Container.BindInterfacesAndSelfTo<DZ2_Mediator.Player>().FromInstance(_player).AsSingle();
+        }
+
+        private void InstallPlayerInput()
+        {
+            Container.BindInstance(new InputActions()).AsSingle().NonLazy();
+            Dekstop dekstop = Container.InstantiatePrefabForComponent<Dekstop>(_dekstop);
+            Container.BindInterfacesAndSelfTo<Dekstop>().FromInstance(dekstop).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PlayerMovement>().AsSingle();
+        }
     }
 }

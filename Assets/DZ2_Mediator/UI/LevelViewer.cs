@@ -11,7 +11,7 @@ namespace Assets.Patterns.DZ2_Mediator
 
         private const string healthText = "Level :";
 
-        public void OnChanged(int level)
+        public void SetText(int level)
         {
             _text.text = healthText + level;
         }

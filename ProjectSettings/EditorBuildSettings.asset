@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/DZ4_3/Balls/QuizChoosingScene.unity
+    guid: 5abe8d0c87aa95c4386f163a00197e1f
+  - enabled: 1
+    path: Assets/DZ4_3/Balls/QuizGameplayScene.unity
+    guid: 750a730629076894caeaea887ecb4004
   m_configObjects: {}

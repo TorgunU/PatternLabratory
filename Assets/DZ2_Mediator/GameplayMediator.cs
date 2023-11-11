@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using Zenject;
 
 namespace Assets.Patterns.DZ2_Mediator
 {
-    public class GameplayMediator
+    public class GameplayMediator : IDisposable
     {
         private HealthViewer _healthViewer;
         private LevelViewer _levelViewer;
@@ -20,15 +21,8 @@ namespace Assets.Patterns.DZ2_Mediator
             _restartPanel = restartPanel;
 
             _player.Died += OnPlayerDied;
-            _player.HealthChanged += _healthViewer.OnChanged;
-            _player.LevelChanged += _levelViewer.OnChanged;
-        }
-
-        private void OnDisable()
-        {
-            _player.Died += OnPlayerDied;
-            _player.HealthChanged += _healthViewer.OnChanged;
-            _player.LevelChanged += _levelViewer.OnChanged;
+            _player.HealthChanged += OnHealthChanged;
+            _player.LevelChanged += OnLevelChanged;
         }
 
         public void RestartLevel()
@@ -40,6 +34,23 @@ namespace Assets.Patterns.DZ2_Mediator
         private void OnPlayerDied()
         {
             _restartPanel.Show();
+        }
+
+        private void OnHealthChanged(float health)
+        {
+            _healthViewer.SetText(health);
+        }
+
+        private void OnLevelChanged(int level)
+        {
+            _levelViewer.SetText(level);
+        }
+
+        public void Dispose()
+        {
+            _player.Died -= OnPlayerDied;
+            _player.HealthChanged -= OnHealthChanged;
+            _player.LevelChanged -= OnLevelChanged;
         }
     }
 }
